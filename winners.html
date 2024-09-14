@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Winners - ItsYoZGaming</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #FF0000; /* YouTube Red */
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+            position: relative; /* Make header a relative container */
+        }
+        header h1 {
+            margin: 0;
+        }
+        header a {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            background-color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+        header a:hover {
+            background-color: #777;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .section {
+            padding: 2rem 0;
+            background-color: #fff;
+            margin: 1rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .section h2 {
+            margin-top: 0;
+        }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            padding: 0.75rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .contact-form button {
+            padding: 0.75rem;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #FF0000; /* YouTube Red */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .contact-form button:hover {
+            background-color: #cc0000;
+        }
+        footer {
+            background-color: #FF0000; /* YouTube Red */
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+            position: relative; /* Make footer a relative container */
+        }
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Get Ready For Your Payout</h1>
+            <a href="index.html">Home</a> <!-- Link added to top-right -->
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <h2>Payout Info</h2>
+            <form class="contact-form" id="contact-form">
+                <input type="text" id="first-name" name="first-name" placeholder="First Name" required>
+                <input type="text" id="last-name" name="last-name" placeholder="Last Name" required>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="tel" id="phone" name="phone" placeholder="Phone Number (optional)">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 ItsYoZGaming. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        // Initialize EmailJS with your user ID
+        emailjs.init("caftd5J-U8_F_NqLC");
+
+        // Handle form submission
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            emailjs.send("service_d8sdbkp", "template_mp6fq5f", data)
+                .then((response) => {
+                    alert('Email sent successfully!');
+                    document.getElementById('contact-form').reset(); // Clear the form
+                }, (error) => {
+                    alert('Failed to send email. Please try again later.');
+                    console.error('EmailJS error:', error);
+                });
+        });
+    </script>
+</body>
+</html>

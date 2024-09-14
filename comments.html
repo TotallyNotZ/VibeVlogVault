@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background-color: #FF0000; /* YouTube Red */
+            color: #fff;
+            padding: 1rem;
+            position: relative;
+        }
+        header h1 {
+            margin: 0;
+            text-align: center;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1rem;
+            background-color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+        header a:hover {
+            background-color: #777;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .comment-form input,
+        .comment-form textarea {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .comment-form button {
+            padding: 0.75rem;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #FF0000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .comment-form button:hover {
+            background-color: #cc0000;
+        }
+        .comment-list {
+            margin-top: 2rem;
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .comment-item {
+            border-bottom: 1px solid #ddd;
+            padding: 1rem 0;
+        }
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+        .author {
+            font-weight: bold;
+            color: #FF0000;
+        }
+        footer {
+            background-color: #FF0000; /* YouTube Red */
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Comments Page</h1>
+            <a href="index.html">Home</a> <!-- Link moved to top-right -->
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Leave a Comment (under development)</h1>
+
+        <form class="comment-form" id="comment-form">
+            <input type="text" id="comment-name" placeholder="Your Name" required>
+            <textarea id="comment-text" rows="4" placeholder="Your Comment" required></textarea>
+            <button type="submit">Submit Comment</button>
+        </form>
+
+        <div id="comment-list" class="comment-list">
+            <!-- Comments will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 ItsYoZGaming. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Function to load comments from localStorage and display them
+        function loadComments() {
+            const comments = JSON.parse(localStorage.getItem('comments')) || [];
+            const commentList = document.getElementById('comment-list');
+            commentList.innerHTML = ''; // Clear the list before adding new ones
+
+            comments.forEach(comment => {
+                const commentItem = document.createElement('div');
+                commentItem.classList.add('comment-item');
+                commentItem.innerHTML = `
+                    <p class="author">${comment.name}</p>
+                    <p>${comment.text}</p>
+                `;
+                commentList.appendChild(commentItem);
+            });
+        }
+
+        // Function to save a comment to localStorage
+        function saveComment(name, text) {
+            const comments = JSON.parse(localStorage.getItem('comments')) || [];
+            comments.push({ name, text });
+            localStorage.setItem('comments', JSON.stringify(comments));
+        }
+
+        // Handle form submission
+        document.getElementById('comment-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting the traditional way
+
+            const name = document.getElementById('comment-name').value;
+            const text = document.getElementById('comment-text').value;
+
+            // Save the new comment
+            saveComment(name, text);
+
+            // Reload the comments to display the new one
+            loadComments();
+
+            // Clear the form inputs
+            document.getElementById('comment-name').value = '';
+            document.getElementById('comment-text').value = '';
+        });
+
+        // Load comments when the page loads
+        document.addEventListener('DOMContentLoaded', loadComments);
+    </script>
+</body>
+</html>
