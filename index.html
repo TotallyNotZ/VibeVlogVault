@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeVlogVault.net</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #FF0000; /* YouTube Red */
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .hero {
+            background-color: #f4f4f4;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .hero h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        .section {
+            padding: 2rem 0;
+        }
+        .section h2 {
+            margin-top: 0;
+        }
+        .section p {
+            line-height: 1.6;
+        }
+        footer {
+            background-color: #FF0000; /* YouTube Red */
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        footer p {
+            margin: 0;
+        }
+        .video-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .video-item {
+            width: 300px;
+        }
+        .video-item iframe {
+            width: 100%;
+            height: 200px;
+        }
+        .comment-section {
+            margin-top: 2rem;
+        }
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .comment-form input,
+        .comment-form textarea {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .comment-form button {
+            padding: 0.75rem;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #FF0000; /* YouTube Red */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .comment-form button:hover {
+            background-color: #cc0000;
+        }
+        .comment-list {
+            margin-top: 2rem;
+        }
+        .comment-item {
+            border-bottom: 1px solid #ddd;
+            padding: 1rem 0;
+        }
+        .comment-item p {
+            margin: 0;
+        }
+        .author {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>ItsYoZGaming's Website</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html" id="home-link">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="videos.html">Videos</a></li>
+                    <li><a href="vlog.html">Vlog</a></li> <!-- Added Vlog button -->
+                    <li><a href="comments.html">Comment</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="winners.html">E-Winners</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>Welcome to VibeVlogVault</h1>
+            <p><b>Discover my latest videos, news, update, vlogs, and more.</b></p>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="container">
+            <h2>A Little About Me</h2>
+            <p>I am a 15 year old boy makin content on youtube, Tryin to be the next Mr.Beast (i coded this website)</p>
+        </div>
+    </section>
+
+    <section id="videos" class="section">
+        <div class="container">
+            <h1>Videos Page</h1>
+            <p>In the <b>videos</b> page you will find all of the videos on my youtube channel</p>
+        </div>
+    </section>
+
+    <section id="vlog" class="section"> <!-- Vlog Section -->
+        <div class="container">
+            <h2>Latest Vlogs</h2>
+            <p>In the vlog section you'll find my <b>personal vlogs</b>, where I talk about <b>life, my journey</b> and <b>behind the scenes</b> of my videos!
+            </b>
+            </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="comment" class="section">
+        <div class="container">
+            <h1>Comment Section</h1>
+            <p>Have any ideas, questions, or concerns? let me know in the comment section page!</p>
+        </div>
+    </section>
+
+    <section id="winners" class="section">
+        <div class="container">
+            <h1>Event Winner Payouts</h1>
+            <p>The Page <b>E-winners</b> means <b>event winners</b> and its the page i will use to payout event winners.. (events page for more info)</p>
+        </div>
+    </section>
+
+    <section id="event" class="section">
+        <div class="container">
+            <h1>Giveaways/Event Page</h1>
+            <p>I will be using the events page to start giveaways for other events like: giveaways, donations, and more. Find the winners at the contact page</p>
+        </div>
+    </section>
+
+    <script>
+        const API_KEY = 'AIzaSyAZkzDj5uS_slGDL-2NCnxQ0SMBD_4rbj8'; // Replace with your actual YouTube API key
+        const CHANNEL_ID = 'UCMNnyIKKnlm2IPdGMEsaPZg'; // Replace with your actual YouTube channel ID
+        const MAX_RESULTS = 9;
+    
+        async function fetchYouTubeData() {
+            try {
+                // Fetch latest videos from YouTube Data API
+                const videoResponse = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=${MAX_RESULTS}`);
+                const videoData = await videoResponse.json();
+                const videoList = document.getElementById('video-list');
+    
+                // Clear the video list before populating it
+                videoList.innerHTML = '';
+    
+                videoData.items.forEach(item => {
+                    // Check if the item has a videoId (ignore other types like playlists)
+                    if (item.id.videoId) {
+                        const videoId = item.id.videoId;
+                        const videoItem = document.createElement('div');
+                        videoItem.classList.add('video-item');
+                        videoItem.innerHTML = `
+                            <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
+                            <p>${item.snippet.title}</p>
+                        `;
+                        videoList.appendChild(videoItem);
+                    }
+                });
+            } catch (error) {
+                console.error('Error fetching YouTube data:', error);
+            }
+        }
+    
+        document.addEventListener('DOMContentLoaded', fetchYouTubeData);
+    </script>    
+
+    <section class="section comment-section">
+        <div class="container">
+            <h2>Leave a Comment (under development)</h2>
+            <form class="comment-form">
+                <input type="text" id="comment-name" name="comment-name" placeholder="Your Name" required>
+                <textarea id="comment-text" name="comment-text" rows="4" placeholder="Your Comment" required></textarea>
+                <button type="submit">Submit Comment</button>
+            </form>
+
+            <div id="comment-list" class="comment-list">
+                <!-- Comments will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 ItsYoZGaming. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
