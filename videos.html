@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Videos - ItsYoZGaming</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #FF0000; /* YouTube Red */
+            color: #fff;
+            padding: 1rem;
+            position: relative;
+        }
+        header h1 {
+            margin: 0;
+            text-align: center;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1rem;
+            background-color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+        header a:hover {
+            background-color: #777;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .video-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .video-item {
+            width: 300px;
+        }
+        .video-item iframe {
+            width: 100%;
+            height: 200px;
+        }
+        .section {
+            padding: 2rem 0;
+            background-color: #fff;
+            margin: 1rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .author {
+            font-weight: bold;
+        }
+        footer {
+            background-color: #FF0000; /* YouTube Red */
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>All Videos</h1>
+            <a href="index.html">Home</a> <!-- Link moved to top-right -->
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <h2>Videos</h2>
+            <div id="video-list" class="video-list">
+                <!-- Videos will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 ItsYoZGaming. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const API_KEY = 'AIzaSyAZkzDj5uS_slGDL-2NCnxQ0SMBD_4rbj8'; // Replace with your API key
+        const CHANNEL_ID = 'UCMNnyIKKnlm2IPdGMEsaPZg'; // Replace with your channel ID
+        const MAX_RESULTS = 15; // You can adjust this number as needed
+
+        async function fetchYouTubeVideos() {
+            try {
+                let nextPageToken = '';
+                const videoList = document.getElementById('video-list');
+
+                while (true) {
+                    const response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=${MAX_RESULTS}&pageToken=${nextPageToken}`);
+                    const data = await response.json();
+                    const videos = data.items;
+
+                    videos.forEach(item => {
+                        if (item.id.videoId) {
+                            const videoId = item.id.videoId;
+                            const videoItem = document.createElement('div');
+                            videoItem.classList.add('video-item');
+                            videoItem.innerHTML = `
+                                <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <p>${item.snippet.title}</p>
+                            `;
+                            videoList.appendChild(videoItem);
+                        }
+                    });
+
+                    // Handle pagination
+                    if (data.nextPageToken) {
+                        nextPageToken = data.nextPageToken;
+                    } else {
+                        break;
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching YouTube videos:', error);
+            }
+        }
+
+        // Fetch YouTube videos when the page loads
+        document.addEventListener('DOMContentLoaded', fetchYouTubeVideos);
+
+        // Comment functionality
+        document.querySelector('.comment-form')?.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const name = document.getElementById('comment-name')?.value;
+            const comment = document.getElementById('comment-text')?.value;
+
+            const commentList = document.getElementById('comment-list');
+            if (name && comment && commentList) {
+                const commentItem = document.createElement('div');
+                commentItem.classList.add('comment-item');
+                commentItem.innerHTML = `
+                    <p class="author">${name}</p>
+                    <p>${comment}</p>
+                `;
+                commentList.appendChild(commentItem);
+
+                // Clear the form
+                document.getElementById('comment-name').value = '';
+                document.getElementById('comment-text').value = '';
+            }
+        });
+    </script>
+</body>
+</html>

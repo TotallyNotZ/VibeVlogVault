@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Vlog page with videos and interactive elements">
+    <title>My Vlog Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ff0000;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+        }
+        header a {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            background-color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+        header a:hover {
+            background-color: #777;
+        }
+        .video-section {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .video-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        video {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .like, .comment {
+            background-color: #0026a3;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .comment-section {
+            margin-top: 20px;
+        }
+        .comments {
+            margin-top: 10px;
+            list-style-type: none;
+            padding: 0;
+        }
+        .comments li {
+            background: #f1f1f1;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Welcome to My Vlog Page</h1>
+    <a href="index.html">Home</a>
+</header>
+
+<div class="video-section">
+    <div class="video-title">Vlog #1: Welcome!</div>
+    <video controls>
+        <source src="welcomevlog.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="actions">
+        <button class="like" onclick="likeVideo()">👍 Like <span id="like-count">0</span></button>
+        <button class="comment" onclick="showCommentBox()">💬 Comment</button>
+    </div>
+
+    <div class="comment-section">
+        <div id="comment-box" style="display: none;">
+            <textarea id="comment-input" rows="3" placeholder="Write your comment here..."></textarea><br>
+            <button class="comment" onclick="postComment()">Post Comment</button>
+        </div>
+        <ul class="comments" id="comments-list">
+            <!-- Comments will appear here -->
+        </ul>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        loadLikes();
+        loadComments();
+    });
+
+    let likes = parseInt(localStorage.getItem('likes')) || 0;
+
+    function likeVideo() {
+        likes++;
+        localStorage.setItem('likes', likes);
+        document.getElementById('like-count').textContent = likes;
+    }
+
+    function showCommentBox() {
+        document.getElementById('comment-box').style.display = 'block';
+    }
+
+    function postComment() {
+        const commentInput = document.getElementById('comment-input');
+        const commentText = commentInput.value;
+
+        if (commentText) {
+            let comments = JSON.parse(localStorage.getItem('comments')) || [];
+            comments.push(commentText);
+            localStorage.setItem('comments', JSON.stringify(comments));
+            addCommentToList(commentText);
+            commentInput.value = ''; // clear the input box
+        }
+    }
+
+    function loadLikes() {
+        document.getElementById('like-count').textContent = likes;
+    }
+
+    function loadComments() {
+        let comments = JSON.parse(localStorage.getItem('comments')) || [];
+        comments.forEach(comment => addCommentToList(comment));
+    }
+
+    function addCommentToList(commentText) {
+        const commentList = document.getElementById('comments-list');
+        const newComment = document.createElement('li');
+        newComment.textContent = commentText;
+        commentList.appendChild(newComment);
+    }
+</script>
+
+</body>
+</html>
